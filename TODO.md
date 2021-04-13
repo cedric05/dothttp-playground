@@ -1,0 +1,14 @@
+- [ ] spinner while making requests
+- [ ] error reporting when failes because of access-origin 
+- [ ] support other datatypes not only json for response
+- [ ] support mulple requests in single file
+  - [ ] if multiple requests in single, file user should be asked for which one to pick
+  - [ ] support error in case of parse issues
+  - [ ] support `run request, curl request` for every request in file.
+  - [ ] support outline
+- [ ] support multiple examples, (like a dropdown, where one can showcase everything)
+- [ ] for response
+  - [ ] response time, response status, response code 
+- [ ] load python dothtp-wasm in webworker 
+  - [ ] communicate via messages
+
