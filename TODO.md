@@ -1,6 +1,6 @@
-- [ ] spinner while making requests
-- [ ] error reporting when failes because of access-origin 
-- [ ] support other datatypes not only json for response
+- [x] spinner while making requests
+- [x] error reporting when failes because of access-origin 
+- [x] support other datatypes not only json for response
 - [ ] support mulple requests in single file
   - [ ] if multiple requests in single, file user should be asked for which one to pick
   - [ ] support error in case of parse issues

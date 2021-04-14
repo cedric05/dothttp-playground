@@ -32,15 +32,26 @@
 	def main(content):
 		out = content_override(
 			Config(target="1", no_cookie=True, property_file=None, experimental=False, format=False,
-				stdout=False, debug=False, info=False, curl=False, env=["hai"], file="", properties=[]),
-			env={"test": "google.com", },
+				stdout=False, debug=False, info=False, curl=False, env=[], file="", properties=[]),
+			env={},
 			content=content,
 		)
 		out.load()
 		out.load_def()
 		print(out.httpdef)
 		return out.httpdef
+	def getTargets(content):
+		out = content_override(
+			Config(target="1", no_cookie=True, property_file=None, experimental=False, format=False,
+				stdout=False, debug=False, info=False, curl=False, env=[], file="", properties=[]),
+			env={},
+			content=content,
+		)
+		out.load()
+		out.load_def()
+		return [i.namewrap.name for i in out.model.allhttps]
 	globals()['main']=  main
+	globals()['targets'] = getTargets
 import micropip
 micropip.install(['textx', 'dothttp-req-wasm']).then(haha)
 			`

@@ -2,7 +2,7 @@
 	"name": "monaco-esm-webpack-typescript",
 	"scripts": {
 		"start": "npx webpack serve",
-		"build": "NODE_ENV='production' npx webpack --progress"
+		"build": "npx cross-env NODE_ENV='production' npx webpack --progress"
 	},
 	"dependencies": {
 		"@babel/plugin-transform-runtime": "^7.13.15",

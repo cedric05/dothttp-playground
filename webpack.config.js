@@ -23,7 +23,7 @@ module.exports = {
 	output: {
 		globalObject: 'self',
 		filename: '[name].bundle.js',
-		path: path.resolve(__dirname, 'dist')
+		path: path.resolve(__dirname, 'docs')
 	},
 	module: {
 		rules: [
@@ -35,7 +35,7 @@ module.exports = {
 						loader: require.resolve('babel-loader'),
 						options: {
 							presets: ['@babel/preset-env', '@babel/preset-typescript', '@babel/preset-react'],
-							plugins: [[isDevelopment && require.resolve('react-refresh/babel')],].filter(Boolean)
+							plugins: []
 						}
 					}
 				]
@@ -50,6 +50,7 @@ module.exports = {
 			}
 		]
 	},
+	devtool: "source-map",
 	plugins: [
 		new HtmlWebPackPlugin({
 			template: 'src/index.html'

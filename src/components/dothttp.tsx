@@ -93,6 +93,8 @@ function toAxisRequest(obj: ParsedRequest): AxiosRequestConfig {
 	}
 
 	return {
+		withCredentials: false,
+		transformResponse: [],
 		url: obj.url,
 		params: obj.query,
 		headers: headers,
@@ -104,12 +106,13 @@ function toAxisRequest(obj: ParsedRequest): AxiosRequestConfig {
 
 async function getContent(obj: ParsedRequest) {
 	const content = await axiosInstance.request(toAxisRequest(obj));
-	debugger;
-	const finalContent = formatJson(content.data);
-	return finalContent;
+	// const finalContent = formatJson(content.data);
+	return content;
 }
 
 export const DothttpEditor: React.FC = () => {
+
+	useEffect
 	const dothttpEditor = useRef<HTMLDivElement>(null);
 	const jsonEditorOptions: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
 		scrollBeyondLastLine: false,
@@ -134,6 +137,7 @@ json({
 				language: 'dothttp',
 				...jsonEditorOptions
 			});
+			dothttpCodeEditor.onDidChangeModelContent(getTargets);
 		}
 		return () => {
 			dothttpCodeEditor.dispose();
@@ -161,8 +165,17 @@ json({
 	}, []);
 
 
+	async function getTargets() {
+		const code = dothttpCodeEditor.getModel()?.getValue();
+		const pycode = `targets("""${code}""")`
+		//@ts-ignore
+		const out = (window.pyodide).runPython(pycode);
+		console.log(out);
+		return out;
+	}
 
 	async function executeAndUdate() {
+		jsonCodeEditor.getModel().setValue('{"started execution": true}');
 		const code = dothttpCodeEditor.getModel()?.getValue();
 		const pycode = `main("""${code}""")`
 		//@ts-ignore
@@ -174,17 +187,26 @@ json({
 		console.log('urlparams are ', out.query);
 		console.log("data is ", out.payload);
 		console.log(out);
-		let content = '{"error": true}';
+		let content: string = '{"error": true}';
 		try {
-			content = await getContent(out);
+			const resp = await getContent(out);
+			const contentType = resp.headers['content-type'];
+			if (contentType === "application/json"){
+				monaco.editor.setModelLanguage(jsonCodeEditor.getModel(), "json");
+			} else {
+				monaco.editor.setModelLanguage(jsonCodeEditor.getModel(), "text");
+			}
+			content = resp.data;
 		} catch (error) {
-			debugger;
 			content = formatJson(error);
 		}
 		return jsonCodeEditor.getModel().setValue(content);
 	}
 	return <div>
 		<button onClick={executeAndUdate}> send</button>
+		<select id="id">
+
+		</select>
 		<div className="playground-container">
 			<div className="playground-editorpane">
 				<div className="Editor" ref={dothttpEditor}></div>;
