@@ -9,6 +9,6 @@
 - [ ] support multiple examples, (like a dropdown, where one can showcase everything)
 - [ ] for response
   - [ ] response time, response status, response code 
-- [ ] load python dothtp-wasm in webworker 
-  - [ ] communicate via messages
+- [x] load python dothtp-wasm in webworker 
+  - [x] communicate via messages
 

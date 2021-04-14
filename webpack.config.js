@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+var HtmlWebpackSkipAssetsPlugin = require('html-webpack-skip-assets-plugin').HtmlWebpackSkipAssetsPlugin;
+
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -12,7 +14,8 @@ module.exports = {
 		'json.worker': 'monaco-editor/esm/vs/language/json/json.worker',
 		'css.worker': 'monaco-editor/esm/vs/language/css/css.worker',
 		'html.worker': 'monaco-editor/esm/vs/language/html/html.worker',
-		'ts.worker': 'monaco-editor/esm/vs/language/typescript/ts.worker'
+		'ts.worker': 'monaco-editor/esm/vs/language/typescript/ts.worker',
+		'dothttp.worker': "./src/worker/worker.ts"
 	},
 	devServer: {
 		hot: true
@@ -53,7 +56,10 @@ module.exports = {
 	devtool: "source-map",
 	plugins: [
 		new HtmlWebPackPlugin({
-			template: 'src/index.html'
+			template: 'src/index.html',
+		}),
+		new HtmlWebpackSkipAssetsPlugin({
+			skipAssets: [/dothttp.worker.*.js/]
 		}),
 		isDevelopment && new ReactRefreshWebpackPlugin()
 	].filter(Boolean)
