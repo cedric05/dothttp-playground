@@ -109,7 +109,7 @@ json({
 		}
 	}
 
-	return <div>
+	return <div className="parentdev">
 		<Nav>
 			<NavDropdown id="dropdown-item-button" title="Try Requests here">
 				{templates.map(aOption => (
