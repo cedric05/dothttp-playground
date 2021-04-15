@@ -27,7 +27,6 @@ self.MonacoEnvironment = {
 
 export const DothttpEditor: React.FC = () => {
 
-	useEffect
 	const dothttpEditor = useRef<HTMLDivElement>(null);
 	const jsonEditorOptions: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
 		scrollBeyondLastLine: false,
@@ -95,7 +94,6 @@ json({
 
 	function getOptions() {
 		const newLocal = templates.map(aOption => <option key={aOption.name} value={aOption.template}>{aOption.name}</option>);
-
 		return newLocal;
 	}
 	let statusColour = "outline-dark";
@@ -110,8 +108,6 @@ json({
 			return statusColour = "outline-danger"
 		}
 	}
-
-
 
 	return <div>
 		<Nav>
@@ -128,10 +124,10 @@ json({
 		{/* Original don't change */}
 		<div className="playground-container">
 			<div className="playground-editorpane">
-				<div className="Editor" ref={dothttpEditor}></div>;
+				<div className="Editor" ref={dothttpEditor}></div>
 			</div>
 			<div className="playground-editorpane">
-				<div className="Editor" ref={jsonEditor}></div>;
+				<div className="Editor" ref={jsonEditor}></div>
 			</div>
 		</div>
 	</div>

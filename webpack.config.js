@@ -11,6 +11,7 @@ module.exports = {
 	entry: {
 		app: './src/index.tsx',
 		'editor.worker': 'monaco-editor/esm/vs/editor/editor.worker.js',
+		'json.worker': 'monaco-editor/esm/vs/language/json/json.worker',
 		'dothttp.worker': "./src/worker/worker.ts"
 	},
 	devServer: {
