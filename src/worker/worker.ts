@@ -56,25 +56,28 @@ async function loadPyodideAndPackages() {
 let pyodideReadyPromise = loadPyodideAndPackages();
 
 
-async function executeAndUdate(code: string): Promise<{ content: string; lang: string; }> {
+async function executeAndUdate(code: string): Promise<{ content: string; lang: string; status: number }> {
     const pycode = `main("""${code}""")`
     let lang: string;
     let content: string;
+    let status: number;
     // @ts-ignore
     const out = (self.pyodide).runPython(pycode);
+    lang = "json";
     try {
         const resp = await getContent(out);
         const contentType = resp.headers['content-type'];
         if (contentType === "application/json") {
-            lang = "json";
         } else {
             lang = "text"
         }
+        status = resp.status;
         content = resp.data;
     } catch (error) {
         content = formatJson(error);
+        status = 500;
     }
-    return { content, lang };
+    return { content, lang, status };
 }
 
 
