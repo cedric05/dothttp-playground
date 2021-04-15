@@ -44,12 +44,10 @@ export const Playground: React.FC = () => {
         </Tooltip>
     );
 
-    return <>
-        <div>
+    return <div className="matchparent">
 
-            <DothttpEditor
-            // onBicepChange={setBicepContent} onJsonChange={setJsonContent} initialCode={initialContent} 
-            />
-        </div>
-    </>
+        <DothttpEditor
+        // onBicepChange={setBicepContent} onJsonChange={setJsonContent} initialCode={initialContent} 
+        />
+    </div>
 };

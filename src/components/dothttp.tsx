@@ -17,15 +17,6 @@ self.MonacoEnvironment = {
 		if (label === 'json') {
 			return './json.worker.bundle.js';
 		}
-		if (label === 'css' || label === 'scss' || label === 'less') {
-			return './css.worker.bundle.js';
-		}
-		if (label === 'html' || label === 'handlebars' || label === 'razor') {
-			return './html.worker.bundle.js';
-		}
-		if (label === 'typescript' || label === 'javascript') {
-			return './ts.worker.bundle.js';
-		}
 		return './editor.worker.bundle.js';
 	}
 };
@@ -33,7 +24,6 @@ self.MonacoEnvironment = {
 
 export const DothttpEditor: React.FC = () => {
 
-	useEffect
 	const dothttpEditor = useRef<HTMLDivElement>(null);
 	const jsonEditorOptions: monacoEditor.editor.IStandaloneEditorConstructionOptions = {
 		scrollBeyondLastLine: false,
@@ -95,17 +85,17 @@ json({
 	}
 
 
-	return <div>
+	return <div className="parentdev">
 		<button onClick={invokeExecute}> send</button>
 		<select id="id">
 
 		</select>
 		<div className="playground-container">
 			<div className="playground-editorpane">
-				<div className="Editor" ref={dothttpEditor}></div>;
+				<div className="Editor" ref={dothttpEditor}></div>
 			</div>
 			<div className="playground-editorpane">
-				<div className="Editor" ref={jsonEditor}></div>;
+				<div className="Editor" ref={jsonEditor}></div>
 			</div>
 		</div>
 	</div>

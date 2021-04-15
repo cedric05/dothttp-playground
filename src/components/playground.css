@@ -3,12 +3,18 @@
   z-index: 1;
 }
 
-.playground-container {
-  z-index: 0;
-  position: relative;
-  height: 100%;
+.parentdev{
+  height:100%;
   width: 100%;
 }
+
+
+.playground-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 
 .playground-editorpane {
   width: 50%;
