@@ -1,8 +1,11 @@
 import * as monaco from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor';
 import React, { useEffect, useRef } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import { Button, Dropdown, DropdownButton, Nav, NavDropdown, NavItem } from 'react-bootstrap';
 import * as dothttp from '../lang/dothttp';
 import { KIND } from '../utils/utils';
+import templates from './templates'
 import { eventInstance, executeCode, targetCode } from './worker.client';
 
 
@@ -16,15 +19,6 @@ self.MonacoEnvironment = {
 	getWorkerUrl: function (_moduleId: any, label: string) {
 		if (label === 'json') {
 			return './json.worker.bundle.js';
-		}
-		if (label === 'css' || label === 'scss' || label === 'less') {
-			return './css.worker.bundle.js';
-		}
-		if (label === 'html' || label === 'handlebars' || label === 'razor') {
-			return './html.worker.bundle.js';
-		}
-		if (label === 'typescript' || label === 'javascript') {
-			return './ts.worker.bundle.js';
 		}
 		return './editor.worker.bundle.js';
 	}
@@ -68,13 +62,13 @@ json({
 	const jsonEditor = useRef<HTMLDivElement>(null);
 
 	let jsonCodeEditor: monaco.editor.IStandaloneCodeEditor;
-
+	let status: number;
 	useEffect(() => {
 		if (jsonEditor.current) {
 			jsonCodeEditor = monaco.editor.create(jsonEditor.current, {
 				value: `{}`,
 				language: 'json',
-				// readOnly: true,
+				readOnly: true,
 				...jsonEditorOptions,
 			}
 			,);
@@ -85,21 +79,53 @@ json({
 	}, []);
 
 	function invokeExecute() {
+		console.log(templates);
 		executeCode(dothttpCodeEditor.getModel().getValue());
 		jsonCodeEditor.getModel().setValue('{"execution": "started"}')
 		eventInstance.addEventListener(KIND.EXECUTE, (event) => {
 			jsonCodeEditor.getModel().setValue(event.data.results.content)
+			status = event.data.results.status;
 			monaco.editor.setModelLanguage(jsonCodeEditor.getModel(), event.data.results.lang || 'text');
 		})
 
 	}
+	function updateTemplate(event) {
+		dothttpCodeEditor.getModel().setValue(event.target.attributes['value'].value);
+	}
+
+	function getOptions() {
+		const newLocal = templates.map(aOption => <option key={aOption.name} value={aOption.template}>{aOption.name}</option>);
+
+		return newLocal;
+	}
+	let statusColour = "outline-dark";
+	function changeStatus() {
+		if (status <= 200 || status >= 299) {
+			return statusColour = "outline-success"
+		} else if (status <= 300 || status >= 399) {
+			return statusColour = "outline-secondary"
+		} else if (status <= 400 || status >= 499) {
+			return statusColour = "outline-warning"
+		} else {
+			return statusColour = "outline-danger"
+		}
+	}
+
 
 
 	return <div>
-		<button onClick={invokeExecute}> send</button>
-		<select id="id">
+		<Nav>
+			<NavDropdown id="dropdown-item-button" title="Try Requests here">
+				{templates.map(aOption => (
+					<NavDropdown.Item onClick={updateTemplate} key={aOption.name} value={aOption.template} >{aOption.name}</NavDropdown.Item>
+				))}
+			</NavDropdown>
 
-		</select>
+			<Button variant="primary" size="sm" onClick={invokeExecute}>Send</Button>{' '}
+			<Button className="ml-auto" size="sm" variant={statusColour} disabled>Status:</Button>{' '}
+			{/* <Button variant="outline-primary" disabled>Time: ms</Button>{' '} */}
+		</Nav>
+		{/* Original don't change */}
 		<div className="playground-container">
 			<div className="playground-editorpane">
 				<div className="Editor" ref={dothttpEditor}></div>;
@@ -110,3 +136,4 @@ json({
 		</div>
 	</div>
 };
+// Original
