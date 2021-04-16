@@ -2,7 +2,7 @@ import * as monaco from 'monaco-editor';
 import * as monacoEditor from 'monaco-editor';
 import React, { useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Button, Dropdown, DropdownButton, Nav, NavDropdown, NavItem } from 'react-bootstrap';
+import { Button, Dropdown, DropdownButton, Nav, Navbar, NavDropdown, NavItem } from 'react-bootstrap';
 import * as dothttp from '../lang/dothttp';
 import { KIND } from '../utils/utils';
 import templates from './templates'
@@ -76,7 +76,6 @@ json({
 			jsonCodeEditor.dispose();
 		};
 	}, []);
-
 	function invokeExecute() {
 		console.log(templates);
 		executeCode(dothttpCodeEditor.getModel().getValue());
@@ -84,9 +83,9 @@ json({
 		eventInstance.addEventListener(KIND.EXECUTE, (event) => {
 			jsonCodeEditor.getModel().setValue(event.data.results.content)
 			status = event.data.results.status;
+			changeStatus(status);
 			monaco.editor.setModelLanguage(jsonCodeEditor.getModel(), event.data.results.lang || 'text');
 		})
-
 	}
 	function updateTemplate(event) {
 		dothttpCodeEditor.getModel().setValue(event.target.attributes['value'].value);
@@ -96,8 +95,8 @@ json({
 		const newLocal = templates.map(aOption => <option key={aOption.name} value={aOption.template}>{aOption.name}</option>);
 		return newLocal;
 	}
-	let statusColour = "outline-dark";
-	function changeStatus() {
+	let statusColour = "outline-danger";
+	function changeStatus(status) {
 		if (status <= 200 || status >= 299) {
 			return statusColour = "outline-success"
 		} else if (status <= 300 || status >= 399) {
@@ -110,26 +109,26 @@ json({
 	}
 
 	return <div className="parentdev">
-		<Nav>
-			<NavDropdown id="dropdown-item-button" title="Try Requests here">
-				{templates.map(aOption => (
-					<NavDropdown.Item onClick={updateTemplate} key={aOption.name} value={aOption.template} >{aOption.name}</NavDropdown.Item>
-				))}
-			</NavDropdown>
+		<Navbar bg="dark" variant="dark">
+			<Navbar.Brand>dotHttp Playground</Navbar.Brand>
+			<Nav className="ml-auto">
 
-			<Button variant="primary" size="sm" onClick={invokeExecute}>Send</Button>{' '}
-			<Button className="ml-auto" size="sm" variant={statusColour} disabled>Status:</Button>{' '}
-			{/* <Button variant="outline-primary" disabled>Time: ms</Button>{' '} */}
-		</Nav>
-		{/* Original don't change */}
-		<div className="playground-container">
-			<div className="playground-editorpane">
-				<div className="Editor" ref={dothttpEditor}></div>
+				<Button className="ml-auto" size="sm" variant={statusColour} disabled>Status: {status}</Button>{' '}
+				<Button variant="primary" size="sm" onClick={invokeExecute}>Send</Button>{' '}
+				<NavDropdown id="dropdown-item-button" title="Try Requests here">
+					{templates.map(aOption => (
+						<NavDropdown.Item onClick={updateTemplate} key={aOption.name} value={aOption.template} >{aOption.name}</NavDropdown.Item>
+					))}
+				</NavDropdown>
+			</Nav>
+			</Navbar>
+			<div className="playground-container">
+				<div className="playground-editorpane">
+					<div className="Editor" ref={dothttpEditor}></div>
+				</div>
+				<div className="playground-editorpane">
+					<div className="Editor" ref={jsonEditor}></div>
+				</div>
 			</div>
-			<div className="playground-editorpane">
-				<div className="Editor" ref={jsonEditor}></div>
-			</div>
-		</div>
 	</div>
 };
-// Original
