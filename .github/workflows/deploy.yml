@@ -1,14 +1,12 @@
-# .github/workflows/deploy.yml
 
 name: github pages
-
 on:
   push:
     branches:
       - main
     paths:
       - '.github/workflows/deploy.yml'
-      - 'website/**'
+      - '.'
 
 jobs:
   deploy:
