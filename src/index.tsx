@@ -4,8 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Playground } from './components/playground';
 ReactDOM.render(
-	<React.StrictMode>
-		<Playground></Playground>
-	</React.StrictMode>,
+	<Playground></Playground>
+	,
 	document.getElementById('root')
 );

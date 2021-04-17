@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 var HtmlWebpackSkipAssetsPlugin = require('html-webpack-skip-assets-plugin').HtmlWebpackSkipAssetsPlugin;
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -52,6 +53,9 @@ module.exports = {
 	},
 	devtool: "source-map",
 	plugins: [
+		new MonacoWebpackPlugin({
+			languages: ['json', 'dothttp']
+		}),
 		new HtmlWebPackPlugin({
 			template: 'src/index.html',
 		}),
