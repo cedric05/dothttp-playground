@@ -4,6 +4,9 @@ importScripts('https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js');
 import { getContent, formatJson, KIND } from "../utils/utils";
 
 const loadCode = `from dothttp import Config, HttpDefBase
+import json
+import base64
+
 class content_override(HttpDefBase):
     def __init__(self, config: Config, **kwargs):
         self.extra_kwargs = kwargs
@@ -20,6 +23,9 @@ class content_override(HttpDefBase):
             self.property_util.add_command_property(key, value)
 
 def main(content):
+    print("before", content)
+    content = base64.b64decode(content).decode('utf-8')
+    print("after", content)
     out = content_override(
         Config(target="1", no_cookie=True, property_file=None, experimental=False, format=False,
             stdout=False, debug=False, info=False, curl=False, env=[], file="", properties=[]),
@@ -31,6 +37,7 @@ def main(content):
     print(out.httpdef)
     return out.httpdef
 def getTargets(content):
+    content = base64.b64decode(content).decode('utf-8')
     out = content_override(
         Config(target="1", no_cookie=True, property_file=None, experimental=False, format=False,
             stdout=False, debug=False, info=False, curl=False, env=[], file="", properties=[]),
@@ -60,10 +67,11 @@ let pyodideReadyPromise = loadPyodideAndPackages();
 
 
 async function executeAndUdate(code: string): Promise<{ content: string; lang: string; status: number }> {
-    const pycode = `main("""${code}""")`
+    const pycode = `main("${btoa(code)}")`
     let lang: string;
     let content: string;
     let status: number;
+    console.log("pycode",pycode);
     // @ts-ignore
     const out = (self.pyodide).runPython(pycode);
     lang = "json";
@@ -86,7 +94,7 @@ async function executeAndUdate(code: string): Promise<{ content: string; lang: s
 
 
 async function getTargets(code: string) {
-    const pycode = `targets("""${code}""")`
+    const pycode = `targets("${btoa(code)}")`
     //@ts-ignore
     const out = (self.pyodide).runPython(pycode);
     console.log(out);

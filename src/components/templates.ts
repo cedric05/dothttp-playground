@@ -89,5 +89,20 @@ json({
 })`,
         "default": true,
     },
+    {
+        "name": "no escape multiline",
+        "template": `@name("no escape")
+POST https://httpbin.org/post
+data('''
+
+"can have double quotes"
+
+'can have single quotes'
+
+"'can have these'"
+
+''')`,
+        "default": true,
+    }
     
 ]
