@@ -6,9 +6,9 @@
   - [ ] support error in case of parse issues
   - [ ] support `run request, curl request` for every request in file.
   - [ ] support outline
-- [ ] support multiple examples, (like a dropdown, where one can showcase everything)
-- [ ] for response
-  - [ ] response time, response status, response code 
+- [x] support multiple examples, (like a dropdown, where one can showcase everything)
+- [x] for response
+  - [x] response time, response status, response code 
 - [x] load python dothtp-wasm in webworker 
   - [x] communicate via messages
 
