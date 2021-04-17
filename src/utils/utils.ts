@@ -33,6 +33,8 @@ function toAxisRequest(obj: ParsedRequest): AxiosRequestConfig {
                 } else {
                     contentType = "application/x-www-form-urlencoded";
                 }
+            } else {
+                contentType = obj.payload.header;
             }
         } else if (obj.payload.json) {
             data = obj.payload.json;

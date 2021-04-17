@@ -26,7 +26,7 @@ self.MonacoEnvironment = {
 
 
 type state = {
-	status: number;
+	status: string;
 	statusColor: string;
 	jsonEditorData: string;
 	dothttpEditorData: string;
@@ -40,7 +40,7 @@ export class DothttpEditor extends React.Component<{}, state> {
 		super(props);
 		this.state = {
 			loading: true,
-			status: 200,
+			status: "N/A",
 			statusColor: "success",
 			jsonEditorData: "{}",
 			dothttpEditorData: templates[0].template,
@@ -51,7 +51,8 @@ export class DothttpEditor extends React.Component<{}, state> {
 
 		eventInstance.addEventListener(KIND.EXECUTE, (event) => {
 			let statusColor: string;
-			const status = event.data.results.status;
+			this.setState({ loading: false });
+			const status = (event.data.results.status as number);
 			if (status <= 200 || status <= 299) {
 				statusColor = "success";
 			} else if (status <= 300 || status <= 399) {
@@ -61,7 +62,9 @@ export class DothttpEditor extends React.Component<{}, state> {
 			} else {
 				statusColor = "danger";
 			}
-			this.setState({ jsonEditorData: event.data.results.content, status: event.data.results.status, loading: false, statusColor })
+			this.setState({
+				jsonEditorData: event.data.results.content, status: status ? status.toString() : "Error (syntax)", loading: false, statusColor
+			})
 			// monaco.editor.setModelLanguage(this.jsonCodeEditor.getModel(), event.data.results.lang || 'text');
 		})
 	}
@@ -165,8 +168,9 @@ export class DothttpEditor extends React.Component<{}, state> {
 
 
 	invokeExecute() {
-		this.setState({ loading: true });
-		executeCode(this.dothttpCodeEditor.getModel().getValue());
+		const code = this.dothttpCodeEditor.getModel().getValue();
+		this.setState({ loading: true, dothttpEditorData: code });
+		executeCode(code);
 	}
 
 
