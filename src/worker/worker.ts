@@ -52,6 +52,9 @@ async function loadPyodideAndPackages() {
     await self.pyodide.runPython(`import micropip;micropip.install(['textx', 'dothttp-req-wasm'])`);
     // @ts-ignore
     await self.pyodide.runPython(loadCode);
+    self.postMessage(
+        {  key: KIND.LOADED }
+    );
 }
 let pyodideReadyPromise = loadPyodideAndPackages();
 

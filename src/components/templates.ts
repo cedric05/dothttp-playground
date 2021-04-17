@@ -22,7 +22,7 @@ json({
     },
     {
         "name": "Put with json",
-        "template": `PUT https://httpbin.org/post
+        "template": `POST https://httpbin.org/post
 json({
     "name": "john don",
     "age" : 20

@@ -87,7 +87,9 @@ export function formatJson(jsonObj: {}) {
     return finalContent;
 }
 
+
 export enum KIND {
     EXECUTE = 'execute',
     TARGETS = 'target',
+    LOADED = "LOADED"
 }
