@@ -137,7 +137,7 @@ export class DothttpEditor extends React.Component<{}, state> {
 						<Button size="sm" variant="info" className="mr-2" onClick={this.handlCopyClick.bind(this)}>Copy Link</Button>
 					</OverlayTrigger>
 
-					{this.getOverlayTrigger("Docs", "http://docs.dothttp.dev/", "Learn dothttp")}
+					{this.getOverlayTrigger("Docs", "https://docs.dothttp.dev/docs/features", "Learn dothttp")}
 					{this.getOverlayTrigger("Vscode extension", "https://marketplace.visualstudio.com/items?itemName=ShivaPrasanth.dothttp-code", "Install vscode extension")}
 					{this.getOverlayTrigger("Github", "https://github.com/cedric05/dothttp", "Support us by starring github repository")}
 
