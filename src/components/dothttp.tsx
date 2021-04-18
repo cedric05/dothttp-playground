@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import * as monaco from 'monaco-editor';
 import React from 'react';
-import { Button, Nav, NavDropdown, Navbar, Container, Row, Spinner } from 'react-bootstrap';
+import { Button, Nav, NavDropdown, Navbar, Container, Row, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MonacoEditor from 'react-monaco-editor';
 import * as dothttp from '../lang/dothttp';
+import { copyShareLinkToClipboard, handleShareLink } from '../utils/pako-utils';
 import { KIND } from '../utils/utils';
 import templates from './templates';
 import { eventInstance, executeCode } from './worker.client';
@@ -31,6 +32,7 @@ type state = {
 	jsonEditorData: string;
 	dothttpEditorData: string;
 	loading: boolean;
+	step_loading: boolean;
 };
 
 export class DothttpEditor extends React.Component<{}, state> {
@@ -38,15 +40,17 @@ export class DothttpEditor extends React.Component<{}, state> {
 	jsonCodeEditor: monaco.editor.IStandaloneCodeEditor;
 	constructor(props) {
 		super(props);
+		const content = handleShareLink() || templates[0].template as string;
 		this.state = {
-			loading: true,
+			loading: false,
 			status: "N/A",
 			statusColor: "success",
 			jsonEditorData: "{}",
-			dothttpEditorData: templates[0].template,
+			dothttpEditorData: content,
+			step_loading: true,
 		};
 		eventInstance.addEventListener(KIND.LOADED, () => {
-			this.setState({ loading: false });
+			this.setState({ loading: false, step_loading: false });
 		})
 
 		eventInstance.addEventListener(KIND.EXECUTE, (event) => {
@@ -77,6 +81,22 @@ export class DothttpEditor extends React.Component<{}, state> {
 		this.jsonCodeEditor = editor;
 	}
 
+	createTooltip(text: string) {
+		return <Tooltip id="button-tooltip">
+			{text}
+		</Tooltip>
+	}
+
+	handlCopyClick() {
+		copyShareLinkToClipboard(this.dothttpCodeEditor.getModel().getValue());
+	}
+
+	getOverlayTrigger(buttonText: string, url: string, tooltip: string, variant: string = "outline-info") {
+		return <OverlayTrigger placement="bottom" overlay={this.createTooltip(tooltip)}>
+			<Button size="sm" variant={variant} className="mr-2" onClick={() => { window.open(url, '_blank') }}>{buttonText}</Button>
+		</OverlayTrigger>
+	}
+
 	render() {
 
 		const baseEditorOptions = {
@@ -92,14 +112,18 @@ export class DothttpEditor extends React.Component<{}, state> {
 				<Nav >
 					<Navbar.Brand>dotHttp playground</Navbar.Brand>
 
-					<Button className="ml-5" variant="primary mr-1" size="sm" onClick={this.invokeExecute.bind(this)}>Send</Button>{' '}
-					<NavDropdown className="ml-1" id="dropdown-item-button" title="Select Template">
+					<NavDropdown className="ml-5" id="dropdown-item-button" title="Select Template">
 						{templates.map(aOption => (
 							<NavDropdown.Item onClick={this.updateTemplate.bind(this)} key={aOption.name} value={aOption.template} >{aOption.name}</NavDropdown.Item>
 						))}
 					</NavDropdown>
 
 					{' '}
+
+					{this.state.step_loading ?
+						<Spinner className="ml-5" animation="border" /> :
+						<Button className="ml-5" variant="primary mr-1" size="sm" onClick={this.invokeExecute.bind(this)}>RUN</Button>
+					}
 				</Nav>
 
 				<div className="ml-auto" >
@@ -108,12 +132,15 @@ export class DothttpEditor extends React.Component<{}, state> {
 						Status:{this.state.status}
 					</Button>
 
-					<Button size="sm" className="mr-2" onClick={() => { window.open('https://marketplace.visualstudio.com/items?itemName=ShivaPrasanth.dothttp-code', '_blank') }}>
-						vscode extension
-						</Button>
-					<Button size="sm" variant="info" className="mr-2" onClick={() => { window.open('https://github.com/cedric05/dothttp', '_blank') }}>
-						Github Repo
-						</Button>
+
+					<OverlayTrigger placement="bottom" overlay={this.createTooltip("Copy a shareable link to clipboard")}>
+						<Button size="sm" variant="info" className="mr-2" onClick={this.handlCopyClick.bind(this)}>Copy Link</Button>
+					</OverlayTrigger>
+
+					{this.getOverlayTrigger("Docs", "http://docs.dothttp.dev/", "Learn dothttp")}
+					{this.getOverlayTrigger("Vscode extension", "https://marketplace.visualstudio.com/items?itemName=ShivaPrasanth.dothttp-code", "Install vscode extension")}
+					{this.getOverlayTrigger("Github", "https://github.com/cedric05/dothttp", "Support us by starring github repository")}
+
 				</div>
 			</Navbar>
 

@@ -11,4 +11,3 @@
   - [x] response time, response status, response code 
 - [x] load python dothtp-wasm in webworker 
   - [x] communicate via messages
-
