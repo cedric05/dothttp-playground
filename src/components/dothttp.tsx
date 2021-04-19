@@ -121,7 +121,7 @@ export class DothttpEditor extends React.Component<{}, state> {
 					{' '}
 
 					{this.state.step_loading ?
-						<Spinner className="ml-5" animation="border" /> :
+						<Spinner className="ml-5" animation="border" variant="light" /> :
 						<Button className="ml-5" variant="primary mr-1" size="sm" onClick={this.invokeExecute.bind(this)}>RUN</Button>
 					}
 				</Nav>
