@@ -136,8 +136,3 @@ export const language = <languages.IMonarchLanguage>{
         ]
     }
 };
-
-
-
-languages.registerCodeLensProvider("dothttp", new DothttpLensProvider());
-languages.registerDocumentSymbolProvider("dothttp", new DothttpSymbolProvider());
