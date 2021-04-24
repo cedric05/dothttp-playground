@@ -31,8 +31,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-website-
 
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - run: |
+          yarn install --frozen-lockfile
+          yarn build
+          echo "ghpage.dothttp.dev" > docs/CNAME
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
