@@ -23,9 +23,7 @@ class content_override(HttpDefBase):
             self.property_util.add_command_property(key, value)
 
 def main(content):
-    print("before", content)
     content = base64.b64decode(content).decode('utf-8')
-    print("after", content)
     out = content_override(
         Config(target="1", no_cookie=True, property_file=None, experimental=False, format=False,
             stdout=False, debug=False, info=False, curl=False, env=[], file="", properties=[]),
@@ -60,7 +58,7 @@ async function loadPyodideAndPackages() {
     // @ts-ignore
     await self.pyodide.runPython(loadCode);
     self.postMessage(
-        {  key: KIND.LOADED }
+        { key: KIND.LOADED }
     );
 }
 let pyodideReadyPromise = loadPyodideAndPackages();
@@ -71,7 +69,7 @@ async function executeAndUdate(code: string): Promise<{ content: string; lang: s
     let lang: string;
     let content: string;
     let status: number;
-    console.log("pycode",pycode);
+    console.log("pycode", pycode);
     // @ts-ignore
     const out = (self.pyodide).runPython(pycode);
     lang = "json";
@@ -93,12 +91,15 @@ async function executeAndUdate(code: string): Promise<{ content: string; lang: s
 
 
 
-async function getTargets(code: string) {
+async function getTargets(code: string): Promise<string[]> {
     const pycode = `targets("${btoa(code)}")`
-    //@ts-ignore
-    const out = (self.pyodide).runPython(pycode);
-    console.log(out);
-    return out;
+    try {
+        //@ts-ignore
+        const out = (self.pyodide).runPython(pycode);
+        return out;
+    } catch (ignored) {
+    }
+    return [];
 }
 
 

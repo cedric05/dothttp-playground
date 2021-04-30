@@ -44,12 +44,12 @@ POST https://httpbin.org/post
 data('this is payload')`,
         "default": true,
     },
-//     {
-//         "name": "Post with Binary payload",
-//         "template": `POST https://req.dothttp.dev
-// fileinput('C:\Users\john\documents\movie.mkv')`,
-//         "default": true,
-//     },
+    //     {
+    //         "name": "Post with Binary payload",
+    //         "template": `POST https://req.dothttp.dev
+    // fileinput('C:\Users\john\documents\movie.mkv')`,
+    //         "default": true,
+    //     },
     {
         "name": "Post with multipart payload",
         "template": `@name("Post with multipart payload")
@@ -103,6 +103,18 @@ data('''
 
 ''')`,
         "default": true,
+    },
+    {
+        "name": "Github Users",
+        "template": `
+# {{baseUrl=api.github.com}}
+# {{username=cedric05}}
+
+@name("List events for the authenticated user")
+GET "https://{{baseUrl}}/users/{{username}}/events"
+? "per_page"= "30"
+? "page"= "1"        
+`   ,
+        default: false,
     }
-    
 ]
