@@ -2,6 +2,20 @@
 
 export default [
     {
+        "name": "Github Users",
+        "template": `
+# {{baseUrl=api.github.com}}
+# {{username=cedric05}}
+
+@name("List events for the authenticated user")
+GET "https://{{baseUrl}}/users/{{username}}/events"
+? "per_page"= "30"
+? "page"= "1"    
+# checkout https://github.com/cedric05/try-github-apis
+`   ,
+        default: false,
+    },
+    {
         "name": "Get with Params",
         "template": `@name("Get with Params")
 GET https://httpbin.org/get
@@ -105,16 +119,19 @@ data('''
         "default": true,
     },
     {
-        "name": "Github Users",
+        "name": "quoted json",
         "template": `
 # {{baseUrl=api.github.com}}
 # {{username=cedric05}}
 
 @name("List events for the authenticated user")
-GET "https://{{baseUrl}}/users/{{username}}/events"
-? "per_page"= "30"
-? "page"= "1"        
-`   ,
+GET "https://httpbin.org/post"
+json({
+    "hai": """this string can have quotes
+like "this" with out escapes
+and also like 'this'
+})`   ,
         default: false,
-    }
+    },
+
 ]
