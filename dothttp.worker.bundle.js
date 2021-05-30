@@ -4683,7 +4683,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/utils */ "./src/utils/utils.ts");
 
 
-var _excluded = ["key", "code"];
 
 // @ts-ignore
 self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
@@ -4835,7 +4834,7 @@ self.onmessage = /*#__PURE__*/function () {
             return pyodideReadyPromise;
 
           case 2:
-            _event$data = event.data, key = _event$data.key, code = _event$data.code, context = (0,_babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__.default)(_event$data, _excluded);
+            _event$data = event.data, key = _event$data.key, code = _event$data.code, context = (0,_babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__.default)(_event$data, ["key", "code"]);
             console.log(key, code, context);
             _context.prev = 4;
 
