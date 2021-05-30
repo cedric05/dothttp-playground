@@ -121,11 +121,8 @@ data('''
     {
         "name": "Triple Quote json",
         "template": `
-# {{baseUrl=api.github.com}}
-# {{username=cedric05}}
-
-@name("List events for the authenticated user")
-GET "https://httpbin.org/post"
+@name("Triple Quotes")
+POST "https://httpbin.org/post"
 json({
     "hai": """this string can have quotes
 like "this" with out escapes
@@ -137,7 +134,7 @@ and also like 'this'
         "name": "payload breaks",
         "template": `
 @name("text breaks")
-GET "https://httpbin.org/post"
+POST "https://httpbin.org/post"
 data(
 "this is text"
 // here is break
@@ -169,11 +166,12 @@ data(
         <title>Wake up to WonderWidgets!</title>
     </slide>
 """
+// you can define anything here
 /*
 """
-<slide type="all">
-<title>this is commented and, easily taken back</title>
-</slide>
+    <slide type="all">
+    <title>this is commented and, easily taken back</title>
+    </slide>
 """
 */
 
