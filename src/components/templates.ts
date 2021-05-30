@@ -119,7 +119,7 @@ data('''
         "default": true,
     },
     {
-        "name": "quoted json",
+        "name": "Triple Quote json",
         "template": `
 # {{baseUrl=api.github.com}}
 # {{username=cedric05}}
@@ -131,6 +131,77 @@ json({
 like "this" with out escapes
 and also like 'this'
 })`   ,
+        default: false,
+    },
+    {
+        "name": "payload breaks",
+        "template": `
+@name("text breaks")
+GET "https://httpbin.org/post"
+data(
+"this is text"
+// here is break
+"""this is continuation"""
+// this way user can have comments relavent to that section
+)`   ,
+        default: false,
+    },
+    {
+        "name": "XML payload",
+        "template": `
+@name('xml payload')
+POST "https://httpbin.org/post"
+"Content-Type" : "application/xml"
+data(
+"""
+<?xml version='1.0' encoding='us-ascii'?>
+
+<!--  A SAMPLE set of slides  -->
+
+<slideshow 
+    title="Sample Slide Show"
+    date="Date of publication"
+    author="Yours Truly"
+    >
+
+    <!-- TITLE SLIDE -->
+    <slide type="all">
+        <title>Wake up to WonderWidgets!</title>
+    </slide>
+"""
+/*
+"""
+<slide type="all">
+<title>this is commented and, easily taken back</title>
+</slide>
+"""
+*/
+
+"""
+    <!-- OVERVIEW -->
+    <slide type="all">
+        <title>Overview</title>
+        <item>Why <em>WonderWidgets</em> are great</item>
+        <item/>
+        <item>Who <em>buys</em> WonderWidgets</item>
+    </slide>
+
+</slideshow>
+"""
+)
+        
+`   ,
+        default: false,
+    },
+    {
+        "name": "Simple Curl",
+        "template": `
+# {{baseUrl=api.github.com}}
+# {{username=cedric05}}
+@name("List events for the authenticated user")
+curl -X GET "https://{{baseUrl}}/users/{{username}}/events"
+# checkout https://github.com/cedric05/try-github-apis
+`   ,
         default: false,
     },
 
