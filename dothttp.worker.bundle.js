@@ -4709,7 +4709,7 @@ function _loadPyodideAndPackages() {
 
           case 4:
             _context2.next = 6;
-            return self.pyodide.runPython("import micropip;micropip.install(['textx', 'dothttp-req-wasm'])");
+            return self.pyodide.runPython("import micropip;micropip.install(['textx', 'dothttp-req-wasm==0.0.21'])");
 
           case 6:
             _context2.next = 8;
