@@ -202,5 +202,50 @@ curl -X GET "https://{{baseUrl}}/users/{{username}}/events"
 `   ,
         default: false,
     },
+ {
+        "name": "Breaks in json",
+        "template": `
+POST "https://httpbin.org/post"
+json({
+    "somekey": "some value
+"
+        // some comment
+            "other value"
+})
+`   ,
+        default: false,
+    },
+ {
+        "name": "Graph QL Example",
+        "template": `
+POST 'https://api.spacex.land/graphql' 
+json({
+    "query":
+        """{
+          company {
+            ceo
+            coo
+            cto_propulsion
+            cto
+            """
+            // "employees"
+            """
+            founded
+            founder
+            launch_sites
+            name
+            summary
+            test_sites
+            valuation
+            vehicles
+          }
+        }
+  """,
+  "variables":null}
+)
+`   ,
+        default: false,
+    },
+
 
 ]
