@@ -13,7 +13,7 @@ type ParsedRequest = {
     query?: {
         [key: string]: Array<string>;
     };
-    auth?: Array<string>[2];
+    auth?: { username: string, password: string };
     payload?: {
         data?: string | {};
         json?: {};
@@ -56,7 +56,7 @@ function toAxisRequest(obj: ParsedRequest): AxiosRequestConfig {
     }
     let auth = null;
     if (obj.auth) {
-        const [username, password] = obj.auth;
+        const { username, password } = obj.auth;
         auth = {
             username, password
         };
