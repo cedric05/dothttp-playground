@@ -26,7 +26,7 @@ GET https://httpbin.org/get
         "default": true,
     },
     {
-        "name": "POST with json payload",
+        "name": "Post with json payload",
         "template": `@name("POST with json payload")
 POST https://httpbin.org/post
 json({
@@ -42,7 +42,7 @@ json({
         "default": true,
     },
     {
-        "name": "PUT with json payload",
+        "name": "Put with json payload",
         "template": `@name("PUT with json payload")
 PUT https://httpbin.org/put
 json({
@@ -246,6 +246,29 @@ json({
 `   ,
         default: false,
     },
+    {
+        "name": "Extend From Base",
+        "template": `
+// because of dothttp-playground limitation
+// it will always run first request (it can be fixed based on usage)
+
+# {{baseUrl=api.github.com}}
+# {{username=cedric05}}
+
+@name("List events for the authenticated user"): "test"
+GET "/users/{{username}}/events"
+? "per_page"= "30"
+? "page"= "1"    
+
+@name("test") 
+GET "https://{{baseUrl}}/"
+
+`   ,
+        default: false,
+    },
+    
+    
+    
 
 
 ]
