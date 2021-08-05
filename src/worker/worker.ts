@@ -54,7 +54,7 @@ async function loadPyodideAndPackages() {
     // @ts-ignore
     await self.pyodide.loadPackage(['micropip']);
     // @ts-ignore
-    await self.pyodide.runPython(`import micropip;micropip.install(['textx', 'dothttp-req-wasm', 'requests'])`);
+    await self.pyodide.runPython(`import micropip;micropip.install(['dothttp-req-wasm'])`);
     // @ts-ignore
     await self.pyodide.runPython(loadCode);
     self.postMessage(
