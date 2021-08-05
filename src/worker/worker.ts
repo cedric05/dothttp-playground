@@ -1,6 +1,6 @@
 // @ts-ignore
-self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.16.1/full/';
-importScripts('https://cdn.jsdelivr.net/pyodide/v0.16.1/full/pyodide.js');
+self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.17.0/full/';
+importScripts('https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js');
 import { getContent, formatJson, KIND } from "../utils/utils";
 
 const loadCode = `from dothttp import Config, HttpDefBase
