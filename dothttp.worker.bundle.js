@@ -4536,8 +4536,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // @ts-ignore
-self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.17.0/full/';
-importScripts('https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js');
+self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.18.0/full/';
+importScripts('https://cdn.jsdelivr.net/pyodide/v0.18.0/full/pyodide.js');
 
 var loadCode = "from dothttp import Config, HttpDefBase\nimport json\nimport base64\n\nclass content_override(HttpDefBase):\n    def __init__(self, config: Config, **kwargs):\n        self.extra_kwargs = kwargs\n        super().__init__(config)\n\n    def load_content(self):\n        self.original_content = self.content = self.extra_kwargs['content']\n\n    def load_properties_n_headers(self):\n        self.property_util.add_env_property_from_dict(env=self.extra_kwargs.get(\"env\", {}))\n\n    def load_command_line_props(self):\n        for key, value in self.extra_kwargs.get(\"properties\", {}).items():\n            self.property_util.add_command_property(key, value)\n\ndef main(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    print(out.httpdef)\n    return out.httpdef\ndef getTargets(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    return [i.namewrap.name for i in out.model.allhttps]\nglobals()['main']=  main\nglobals()['targets'] = getTargets";
 
