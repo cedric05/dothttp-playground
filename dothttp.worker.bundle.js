@@ -1,6 +1,46 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _arrayLikeToArray)
+/* harmony export */ });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _arrayWithHoles)
+/* harmony export */ });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js ***!
@@ -46,6 +86,63 @@ function _asyncToGenerator(fn) {
       _next(undefined);
     });
   };
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _iterableToArrayLimit)
+/* harmony export */ });
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _nonIterableRest)
+/* harmony export */ });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 /***/ }),
@@ -108,6 +205,55 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   }
 
   return target;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _slicedToArray)
+/* harmony export */ });
+/* harmony import */ var _arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles.js */ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
+/* harmony import */ var _iterableToArrayLimit_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit.js */ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
+/* harmony import */ var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js");
+/* harmony import */ var _nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nonIterableRest.js */ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
+
+
+
+
+function _slicedToArray(arr, i) {
+  return (0,_arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__.default)(arr) || (0,_iterableToArrayLimit_js__WEBPACK_IMPORTED_MODULE_1__.default)(arr, i) || (0,_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__.default)(arr, i) || (0,_nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__.default)();
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _unsupportedIterableToArray)
+/* harmony export */ });
+/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayLikeToArray.js */ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js");
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return (0,_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__.default)(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return (0,_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__.default)(o, minLen);
 }
 
 /***/ }),
@@ -1969,42 +2115,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "KIND": () => (/* binding */ KIND)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var jsonc_parser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jsonc-parser */ "./node_modules/jsonc-parser/lib/esm/main.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var jsonc_parser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jsonc-parser */ "./node_modules/jsonc-parser/lib/esm/main.js");
 
 
 
 
-var axiosInstance = axios__WEBPACK_IMPORTED_MODULE_2___default().create({
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+var axiosInstance = axios__WEBPACK_IMPORTED_MODULE_3___default().create({
   timeout: 15000
 });
+
+function strMapToObj(strMap) {
+  var obj = Object.create(null);
+
+  var _iterator = _createForOfIteratorHelper(strMap),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var _step$value = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__.default)(_step.value, 2),
+          k = _step$value[0],
+          v = _step$value[1];
+
+      // We don’t escape the key '__proto__'
+      // which can cause problems on older engines
+      obj[k] = v;
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  return obj;
+}
 
 function toAxisRequest(obj) {
   var data;
   var contentType = null;
 
   if (obj.payload) {
-    if (obj.payload.data) {
-      data = obj.payload.data;
+    var payload = obj.payload;
 
-      if (!obj.payload.header) {
-        if (typeof obj.payload.data === "string") {
-          contentType = "text/plain";
-        } else {
-          contentType = "application/x-www-form-urlencoded";
-        }
+    if (payload.data) {
+      data = payload.data;
+
+      if (typeof obj.payload.data === "string") {
+        data = payload.data;
+        contentType = "text/plain";
       } else {
-        contentType = obj.payload.header;
+        data = strMapToObj(payload.data.toJs());
+        contentType = "application/x-www-form-urlencoded";
       }
-    } else if (obj.payload.json) {
-      data = obj.payload.json;
+
+      if (!payload.header) {
+        contentType = payload.header;
+      }
+    } else if (payload.json) {
+      data = strMapToObj(payload.json.toJs());
       contentType = "application/json";
-    } else if (obj.payload.files) {
+    } else if (payload.files) {
+      var files = payload.files.toJs();
       var form = new FormData();
-      obj.payload.files.forEach(function (arr) {
+      files.forEach(function (arr) {
+        // content-type currently ignored
         var key = arr[0];
         var value = arr[1][1];
         form.append(key, value);
@@ -2012,9 +2198,11 @@ function toAxisRequest(obj) {
       contentType = "multipart/form-data";
       data = form;
     }
-  }
+  } // its string to string
+  // so object.entries works
 
-  var headers = obj.headers || {};
+
+  var headers = strMapToObj(obj.headers.toJs());
 
   if (contentType) {
     headers['content-type'] = contentType;
@@ -2023,20 +2211,54 @@ function toAxisRequest(obj) {
   var auth = null;
 
   if (obj.auth) {
-    var _obj$auth = obj.auth,
-        username = _obj$auth.username,
-        password = _obj$auth.password;
+    var _obj$auth$toJs = obj.auth.toJs(),
+        username = _obj$auth$toJs.username,
+        password = _obj$auth$toJs.password;
+
     auth = {
       username: username,
       password: password
     };
   }
 
+  var _query = obj.query.toJs();
+
+  var query = new URLSearchParams();
+
+  var _iterator2 = _createForOfIteratorHelper(_query),
+      _step2;
+
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var _step2$value = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__.default)(_step2.value, 2),
+          key = _step2$value[0],
+          value = _step2$value[1];
+
+      var _iterator3 = _createForOfIteratorHelper(value),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var val = _step3.value;
+          query.append(key, val);
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
+
   return {
     withCredentials: false,
     transformResponse: [],
     url: obj.url,
-    params: obj.query,
+    params: query,
     headers: headers,
     method: obj.method,
     data: data,
@@ -2049,9 +2271,9 @@ function getContent(_x) {
 }
 
 function _getContent() {
-  _getContent = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__.default)( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee(obj) {
+  _getContent = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__.default)( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(obj) {
     var content;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -2074,12 +2296,12 @@ function _getContent() {
 
 function formatJson(jsonObj) {
   var data = JSON.stringify(jsonObj);
-  var formattedObj = jsonc_parser__WEBPACK_IMPORTED_MODULE_3__.format(data, undefined, {
+  var formattedObj = jsonc_parser__WEBPACK_IMPORTED_MODULE_4__.format(data, undefined, {
     insertFinalNewline: true,
     insertSpaces: false,
     tabSize: 4
   });
-  var finalContent = jsonc_parser__WEBPACK_IMPORTED_MODULE_3__.applyEdits(data, formattedObj);
+  var finalContent = jsonc_parser__WEBPACK_IMPORTED_MODULE_4__.applyEdits(data, formattedObj);
   return finalContent;
 }
 var KIND;
@@ -4536,10 +4758,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // @ts-ignore
-self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.17.0/full/';
-importScripts('https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js');
+self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.18.0/full/';
+importScripts('https://cdn.jsdelivr.net/pyodide/v0.18.0/full/pyodide.js');
 
-var loadCode = "from dothttp import Config, HttpDefBase\nimport json\nimport base64\n\nclass content_override(HttpDefBase):\n    def __init__(self, config: Config, **kwargs):\n        self.extra_kwargs = kwargs\n        super().__init__(config)\n\n    def load_content(self):\n        self.original_content = self.content = self.extra_kwargs['content']\n\n    def load_properties_n_headers(self):\n        self.property_util.add_env_property_from_dict(env=self.extra_kwargs.get(\"env\", {}))\n\n    def load_command_line_props(self):\n        for key, value in self.extra_kwargs.get(\"properties\", {}).items():\n            self.property_util.add_command_property(key, value)\n\ndef main(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    print(out.httpdef)\n    return out.httpdef\ndef getTargets(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    return [i.namewrap.name for i in out.model.allhttps]\nglobals()['main']=  main\nglobals()['targets'] = getTargets";
+var loadCode = "from dothttp import Config, HttpDefBase\nimport json\nimport base64\n\nclass content_override(HttpDefBase):\n    def __init__(self, config: Config, **kwargs):\n        self.extra_kwargs = kwargs\n        super().__init__(config)\n\n    def load_content(self):\n        self.original_content = self.content = self.extra_kwargs['content']\n\n    def load_properties_n_headers(self):\n        self.property_util.add_env_property_from_dict(env=self.extra_kwargs.get(\"env\", {}))\n\n    def load_command_line_props(self):\n        for key, value in self.extra_kwargs.get(\"properties\", {}).items():\n            self.property_util.add_command_property(key, value)\n\ndef main(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    print(out.httpdef)\n    headers = {}\n    for header in out.httpdef.headers:\n        headers[header] = out.httpdef.headers[header]\n    out.httpdef.headers = headers\n    return out.httpdef\ndef getTargets(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    return [i.namewrap.name for i in out.model.allhttps]\nglobals()['main']=  main\nglobals()['targets'] = getTargets";
 
 function loadPyodideAndPackages() {
   return _loadPyodideAndPackages.apply(this, arguments);
@@ -4560,7 +4782,7 @@ function _loadPyodideAndPackages() {
 
           case 4:
             _context2.next = 6;
-            return self.pyodide.runPython("import micropip;micropip.install(['dothttp-req-wasm', 'chardet==4.0.0'])");
+            return self.pyodide.runPython("import micropip;micropip.install(['dothttp-req-wasm', 'setuptools'])");
 
           case 6:
             _context2.next = 8;
