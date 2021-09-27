@@ -22,10 +22,10 @@ class content_override(HttpDefBase):
         for key, value in self.extra_kwargs.get("properties", {}).items():
             self.property_util.add_command_property(key, value)
 
-def main(content):
+def main(content, target):
     content = base64.b64decode(content).decode('utf-8')
     out = content_override(
-        Config(target="1", no_cookie=True, property_file=None, experimental=False, format=False,
+        Config(target=target, no_cookie=True, property_file=None, experimental=False, format=False,
             stdout=False, debug=False, info=False, curl=False, env=[], file="", properties=[]),
         env={},
         content=content,
@@ -94,8 +94,8 @@ async function loadPyodideAndPackages() {
 let pyodideReadyPromise = loadPyodideAndPackages();
 
 
-async function executeAndUdate(code: string): Promise<{ content: string; lang: string; status: number }> {
-    const pycode = `main("${btoa(code)}")`
+async function executeAndUdate(code: string, target: string): Promise<{ content: string; lang: string; status: number }> {
+    const pycode = `main("${btoa(code)}", "${target}")`
     let lang: string;
     let content: string;
     let status: number;
@@ -140,7 +140,7 @@ self.onmessage = async (event) => {
     let results: any;
     try {
         if (key === KIND.EXECUTE) {
-            results = await executeAndUdate(code);
+            results = await executeAndUdate(code, event.data.target);
         }
         else if (key === KIND.TARGETS) {
             results = await getTargets(code);

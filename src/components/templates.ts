@@ -126,7 +126,7 @@ POST "https://httpbin.org/post"
 json({
     "hai": """this string can have quotes
 like "this" with out escapes
-and also like 'this'
+and also like 'this'"""
 })`   ,
         default: false,
     },

@@ -4,7 +4,7 @@ import React from 'react';
 import { Button, Nav, NavDropdown, Navbar, Container, Row, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MonacoEditor from 'react-monaco-editor';
 import * as dothttp from '../lang/dothttp';
-import { DothttpLensProvider, DothttpSymbolProvider } from '../lang/dothttpEditorFeatures';
+import { DothttpLensProvider } from '../lang/dothttpEditorFeatures';
 import { copyShareLinkToClipboard, handleShareLink } from '../utils/pako-utils';
 import { KIND } from '../utils/utils';
 import templates from './templates';
@@ -16,8 +16,9 @@ monaco.languages.setMonarchTokensProvider('dothttp', dothttp.language)
 monaco.languages.setLanguageConfiguration('dothttp', dothttp.conf)
 
 
-monaco.languages.registerCodeLensProvider("dothttp", new DothttpLensProvider());
-monaco.languages.registerDocumentSymbolProvider("dothttp", new DothttpSymbolProvider());
+const features = new DothttpLensProvider();
+monaco.languages.registerCodeLensProvider("dothttp", features);
+monaco.languages.registerDocumentSymbolProvider("dothttp", features);
 
 monaco.editor.registerCommand("dothttp.run.command", function (_, code, target) {
 	executeCode(code, target);
@@ -37,8 +38,8 @@ self.MonacoEnvironment = {
 type state = {
 	status: string;
 	statusColor: string;
-	jsonEditorData: string;
-	dothttpEditorData: string;
+	// jsonEditorData: string;
+	// dothttpEditorData: string;
 	loading: boolean;
 	// targets: Array<string>;
 	// selected_target: string | null;
@@ -50,13 +51,12 @@ export class DothttpEditor extends React.Component<{}, state> {
 	jsonCodeEditor: monaco.editor.IStandaloneCodeEditor;
 	constructor(props) {
 		super(props);
-		const content = handleShareLink() || templates[0].template as string;
 		this.state = {
 			loading: false,
 			status: "N/A",
 			statusColor: "success",
-			jsonEditorData: "{}",
-			dothttpEditorData: content,
+			// jsonEditorData: "{}",
+			// dothttpEditorData: content,
 			// targets: [],
 			// selected_target: '1',
 			step_loading: true,
@@ -65,7 +65,7 @@ export class DothttpEditor extends React.Component<{}, state> {
 			this.setState({
 				loading: false,
 				step_loading: false,
-				dothttpEditorData: this.dothttpCodeEditor.getValue()
+				// dothttpEditorData: this.dothttpCodeEditor.getValue()
 			});
 		})
 
@@ -83,14 +83,17 @@ export class DothttpEditor extends React.Component<{}, state> {
 				statusColor = "danger";
 			}
 			this.setState({
-				jsonEditorData: event.data.results.content, status: status ? status.toString() : "Error (syntax)", loading: false, statusColor
+				// jsonEditorData: event.data.results.content, 
+				status: status ? status.toString() : "Error (syntax)", loading: false, statusColor
 			})
+			this.jsonCodeEditor.setValue(event.data.results.content as string);
 			// monaco.editor.setModelLanguage(this.jsonCodeEditor.getModel(), event.data.results.lang || 'text');
 		})
 	}
 
 	dothttpWillMount(editor: monaco.editor.IStandaloneCodeEditor) {
 		this.dothttpCodeEditor = editor;
+		editor.setValue(handleShareLink() || templates[0].template as string);
 		// this.dothttpCodeEditor.onDidChangeModelContent(event => {
 		//  	targetCode(this.dothttpCodeEditor.getValue());
 		// })
@@ -186,13 +189,12 @@ export class DothttpEditor extends React.Component<{}, state> {
 								editorDidMount={this.dothttpWillMount.bind(this)}
 								className="Editor" theme="vs-dark"
 								options={baseEditorOptions}
-								value={this.state.dothttpEditorData}>
+							>
 							</MonacoEditor>
 						</div>
 						<div className="playground-editorpane">
 							<MonacoEditor
 								ref="jsonEditor"
-								value={this.state.jsonEditorData}
 								language="json" className="Editor"
 								editorDidMount={this.jsonWillMount.bind(this)}
 								defaultValue="{ }"
@@ -209,7 +211,7 @@ export class DothttpEditor extends React.Component<{}, state> {
 
 
 	updateTemplate(event) {
-		this.setState({ dothttpEditorData: event.target.attributes['value'].value })
+		this.dothttpCodeEditor.setValue(event.target.attributes['value'].value)
 	}
 
 	// updateTarget(event) {
@@ -226,7 +228,8 @@ export class DothttpEditor extends React.Component<{}, state> {
 
 	invokeExecute() {
 		const code = this.dothttpCodeEditor.getModel().getValue();
-		this.setState({ loading: true, dothttpEditorData: code });
+		this.dothttpCodeEditor.setValue(code);
+		this.setState({ loading: true });
 		executeCode(code);
 	}
 
