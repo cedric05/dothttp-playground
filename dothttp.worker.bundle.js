@@ -4761,7 +4761,7 @@ __webpack_require__.r(__webpack_exports__);
 self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.18.0/full/';
 importScripts('https://cdn.jsdelivr.net/pyodide/v0.18.0/full/pyodide.js');
 
-var loadCode = "from dothttp import Config, HttpDefBase\nimport json\nimport base64\n\nclass content_override(HttpDefBase):\n    def __init__(self, config: Config, **kwargs):\n        self.extra_kwargs = kwargs\n        super().__init__(config)\n\n    def load_content(self):\n        self.original_content = self.content = self.extra_kwargs['content']\n\n    def load_properties_n_headers(self):\n        self.property_util.add_env_property_from_dict(env=self.extra_kwargs.get(\"env\", {}))\n\n    def load_command_line_props(self):\n        for key, value in self.extra_kwargs.get(\"properties\", {}).items():\n            self.property_util.add_command_property(key, value)\n\ndef main(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    print(out.httpdef)\n    headers = {}\n    for header in out.httpdef.headers:\n        headers[header] = out.httpdef.headers[header]\n    out.httpdef.headers = headers\n    return out.httpdef\ndef getTargets(content):\n    content = base64.b64decode(content).decode('utf-8')\n    print(content)\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load_model()\n    all_names = []\n    all_urls = []\n    for index, http in enumerate(out.model.allhttps):\n        if http.namewrap:\n            name = http.namewrap.name if http.namewrap else str(index)\n            start = http.namewrap._tx_position\n            end = http._tx_position_end\n        else:\n            start = http.urlwrap._tx_position\n            end = http._tx_position_end\n            name = str(index + 1)\n        name = {\n            'name': name,\n            'method': http.urlwrap.method,\n            'start': start,\n            'end': end\n        }\n        url = {\n            'url': http.urlwrap.url,\n            'method': http.urlwrap.method or 'GET',\n            'start': http.urlwrap._tx_position,\n            'end': http.urlwrap._tx_position_end,\n        }\n        all_names.append(name)\n        all_urls.append(url)\n    data = {\"all_urls\": all_urls, \"all_names\": all_names }\n    return json.dumps(data)\nglobals()['main']=  main\nglobals()['targets'] = getTargets";
+var loadCode = "from dothttp import Config, HttpDefBase\nimport json\nimport base64\n\nclass content_override(HttpDefBase):\n    def __init__(self, config: Config, **kwargs):\n        self.extra_kwargs = kwargs\n        super().__init__(config)\n\n    def load_content(self):\n        self.original_content = self.content = self.extra_kwargs['content']\n\n    def load_properties_n_headers(self):\n        self.property_util.add_env_property_from_dict(env=self.extra_kwargs.get(\"env\", {}))\n\n    def load_command_line_props(self):\n        for key, value in self.extra_kwargs.get(\"properties\", {}).items():\n            self.property_util.add_command_property(key, value)\n\ndef main(content, target):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=target, no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    print(out.httpdef)\n    headers = {}\n    for header in out.httpdef.headers:\n        headers[header] = out.httpdef.headers[header]\n    out.httpdef.headers = headers\n    return out.httpdef\ndef getTargets(content):\n    content = base64.b64decode(content).decode('utf-8')\n    print(content)\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load_model()\n    all_names = []\n    all_urls = []\n    for index, http in enumerate(out.model.allhttps):\n        if http.namewrap:\n            name = http.namewrap.name if http.namewrap else str(index)\n            start = http.namewrap._tx_position\n            end = http._tx_position_end\n        else:\n            start = http.urlwrap._tx_position\n            end = http._tx_position_end\n            name = str(index + 1)\n        name = {\n            'name': name,\n            'method': http.urlwrap.method,\n            'start': start,\n            'end': end\n        }\n        url = {\n            'url': http.urlwrap.url,\n            'method': http.urlwrap.method or 'GET',\n            'start': http.urlwrap._tx_position,\n            'end': http.urlwrap._tx_position_end,\n        }\n        all_names.append(name)\n        all_urls.append(url)\n    data = {\"all_urls\": all_urls, \"all_names\": all_names }\n    return json.dumps(data)\nglobals()['main']=  main\nglobals()['targets'] = getTargets";
 
 function loadPyodideAndPackages() {
   return _loadPyodideAndPackages.apply(this, arguments);
@@ -4805,18 +4805,18 @@ function _loadPyodideAndPackages() {
 
 var pyodideReadyPromise = loadPyodideAndPackages();
 
-function executeAndUdate(_x) {
+function executeAndUdate(_x, _x2) {
   return _executeAndUdate.apply(this, arguments);
 }
 
 function _executeAndUdate() {
-  _executeAndUdate = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__.default)( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3(code) {
+  _executeAndUdate = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__.default)( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3(code, target) {
     var pycode, lang, content, status, out, resp, contentType;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            pycode = "main(\"".concat(btoa(code), "\")");
+            pycode = "main(\"".concat(btoa(code), "\", \"").concat(target, "\")");
             console.log("pycode", pycode); // @ts-ignore
 
             out = self.pyodide.runPython(pycode);
@@ -4895,7 +4895,7 @@ self.onmessage = /*#__PURE__*/function () {
             }
 
             _context.next = 8;
-            return executeAndUdate(code);
+            return executeAndUdate(code, event.data.target);
 
           case 8:
             results = _context.sent;
@@ -4949,7 +4949,7 @@ self.onmessage = /*#__PURE__*/function () {
     }, _callee, null, [[4, 20]]);
   }));
 
-  return function (_x2) {
+  return function (_x3) {
     return _ref.apply(this, arguments);
   };
 }();
