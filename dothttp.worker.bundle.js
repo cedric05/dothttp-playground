@@ -4761,7 +4761,7 @@ __webpack_require__.r(__webpack_exports__);
 self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.18.0/full/';
 importScripts('https://cdn.jsdelivr.net/pyodide/v0.18.0/full/pyodide.js');
 
-var loadCode = "from dothttp import Config, HttpDefBase\nimport json\nimport base64\n\nclass content_override(HttpDefBase):\n    def __init__(self, config: Config, **kwargs):\n        self.extra_kwargs = kwargs\n        super().__init__(config)\n\n    def load_content(self):\n        self.original_content = self.content = self.extra_kwargs['content']\n\n    def load_properties_n_headers(self):\n        self.property_util.add_env_property_from_dict(env=self.extra_kwargs.get(\"env\", {}))\n\n    def load_command_line_props(self):\n        for key, value in self.extra_kwargs.get(\"properties\", {}).items():\n            self.property_util.add_command_property(key, value)\n\ndef main(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    print(out.httpdef)\n    headers = {}\n    for header in out.httpdef.headers:\n        headers[header] = out.httpdef.headers[header]\n    out.httpdef.headers = headers\n    return out.httpdef\ndef getTargets(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    return [i.namewrap.name for i in out.model.allhttps]\nglobals()['main']=  main\nglobals()['targets'] = getTargets";
+var loadCode = "from dothttp import Config, HttpDefBase\nimport json\nimport base64\n\nclass content_override(HttpDefBase):\n    def __init__(self, config: Config, **kwargs):\n        self.extra_kwargs = kwargs\n        super().__init__(config)\n\n    def load_content(self):\n        self.original_content = self.content = self.extra_kwargs['content']\n\n    def load_properties_n_headers(self):\n        self.property_util.add_env_property_from_dict(env=self.extra_kwargs.get(\"env\", {}))\n\n    def load_command_line_props(self):\n        for key, value in self.extra_kwargs.get(\"properties\", {}).items():\n            self.property_util.add_command_property(key, value)\n\ndef main(content):\n    content = base64.b64decode(content).decode('utf-8')\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load()\n    out.load_def()\n    print(out.httpdef)\n    headers = {}\n    for header in out.httpdef.headers:\n        headers[header] = out.httpdef.headers[header]\n    out.httpdef.headers = headers\n    return out.httpdef\ndef getTargets(content):\n    content = base64.b64decode(content).decode('utf-8')\n    print(content)\n    out = content_override(\n        Config(target=\"1\", no_cookie=True, property_file=None, experimental=False, format=False,\n            stdout=False, debug=False, info=False, curl=False, env=[], file=\"\", properties=[]),\n        env={},\n        content=content,\n    )\n    out.load_model()\n    all_names = []\n    all_urls = []\n    for index, http in enumerate(out.model.allhttps):\n        if http.namewrap:\n            name = http.namewrap.name if http.namewrap else str(index)\n            start = http.namewrap._tx_position\n            end = http._tx_position_end\n        else:\n            start = http.urlwrap._tx_position\n            end = http._tx_position_end\n            name = str(index + 1)\n        name = {\n            'name': name,\n            'method': http.urlwrap.method,\n            'start': start,\n            'end': end\n        }\n        url = {\n            'url': http.urlwrap.url,\n            'method': http.urlwrap.method or 'GET',\n            'start': http.urlwrap._tx_position,\n            'end': http.urlwrap._tx_position_end,\n        }\n        all_names.append(name)\n        all_urls.append(url)\n    data = {\"all_urls\": all_urls, \"all_names\": all_names }\n    return json.dumps(data)\nglobals()['main']=  main\nglobals()['targets'] = getTargets";
 
 function loadPyodideAndPackages() {
   return _loadPyodideAndPackages.apply(this, arguments);
@@ -4861,43 +4861,21 @@ function _executeAndUdate() {
   return _executeAndUdate.apply(this, arguments);
 }
 
-function getTargets(_x2) {
-  return _getTargets.apply(this, arguments);
-}
+function getTargets(code) {
+  var pycode = "targets(\"".concat(btoa(code), "\")");
 
-function _getTargets() {
-  _getTargets = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__.default)( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee4(code) {
-    var pycode, out;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            pycode = "targets(\"".concat(btoa(code), "\")");
-            _context4.prev = 1;
-            //@ts-ignore
-            out = self.pyodide.runPython(pycode);
-            return _context4.abrupt("return", out);
+  try {
+    //@ts-ignore
+    var out = self.pyodide.runPython(pycode);
+    return out;
+  } catch (ignored) {}
 
-          case 6:
-            _context4.prev = 6;
-            _context4.t0 = _context4["catch"](1);
-
-          case 8:
-            return _context4.abrupt("return", []);
-
-          case 9:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, null, [[1, 6]]);
-  }));
-  return _getTargets.apply(this, arguments);
+  return [];
 }
 
 self.onmessage = /*#__PURE__*/function () {
   var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__.default)( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee(event) {
-    var _event$data, key, code, context, results;
+    var _event$data, key, code, uniqKey, context, results;
 
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
       while (1) {
@@ -4907,7 +4885,7 @@ self.onmessage = /*#__PURE__*/function () {
             return pyodideReadyPromise;
 
           case 2:
-            _event$data = event.data, key = _event$data.key, code = _event$data.code, context = (0,_babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__.default)(_event$data, ["key", "code"]);
+            _event$data = event.data, key = _event$data.key, code = _event$data.code, uniqKey = _event$data.uniqKey, context = (0,_babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__.default)(_event$data, ["key", "code", "uniqKey"]);
             console.log(key, code, context);
             _context.prev = 4;
 
@@ -4959,7 +4937,8 @@ self.onmessage = /*#__PURE__*/function () {
           case 23:
             self.postMessage({
               results: results,
-              key: key
+              key: key,
+              uniqKey: uniqKey
             });
 
           case 24:
@@ -4970,7 +4949,7 @@ self.onmessage = /*#__PURE__*/function () {
     }, _callee, null, [[4, 20]]);
   }));
 
-  return function (_x3) {
+  return function (_x2) {
     return _ref.apply(this, arguments);
   };
 }();
