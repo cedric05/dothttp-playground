@@ -4,6 +4,7 @@ import React from 'react';
 import { Button, Nav, NavDropdown, Navbar, Container, Row, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MonacoEditor from 'react-monaco-editor';
 import * as dothttp from '../lang/dothttp';
+import { DothttpLensProvider, DothttpSymbolProvider } from '../lang/dothttpEditorFeatures';
 import { copyShareLinkToClipboard, handleShareLink } from '../utils/pako-utils';
 import { KIND } from '../utils/utils';
 import templates from './templates';
@@ -14,6 +15,13 @@ monaco.languages.register({ id: 'dothttp' })
 monaco.languages.setMonarchTokensProvider('dothttp', dothttp.language)
 monaco.languages.setLanguageConfiguration('dothttp', dothttp.conf)
 
+
+monaco.languages.registerCodeLensProvider("dothttp", new DothttpLensProvider());
+monaco.languages.registerDocumentSymbolProvider("dothttp", new DothttpSymbolProvider());
+
+monaco.editor.registerCommand("dothttp.run.command", function (_, code, target) {
+	executeCode(code, target);
+});
 
 // @ts-ignore
 self.MonacoEnvironment = {
@@ -81,7 +89,7 @@ export class DothttpEditor extends React.Component<{}, state> {
 		})
 	}
 
-	dothttpWillMount(editor) {
+	dothttpWillMount(editor: monaco.editor.IStandaloneCodeEditor) {
 		this.dothttpCodeEditor = editor;
 		// this.dothttpCodeEditor.onDidChangeModelContent(event => {
 		//  	targetCode(this.dothttpCodeEditor.getValue());

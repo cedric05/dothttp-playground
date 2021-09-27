@@ -25,22 +25,46 @@ class KindTargets extends EventTarget {
     }
 }
 
+const callBackStore: { [key: string]: Function } = {
+
+}
+
 worker.onmessage = ((event: MessageEvent) => {
     if (event.data.key == KIND.EXECUTE) {
         eventInstance.executeResult(event.data)
     }
     else if (event.data.key == KIND.TARGETS) {
-        eventInstance.targetResult(event.data)
+        if (event.data.uniqKey) {
+            callBackStore[event.data.uniqKey](event);
+            delete callBackStore[event.data.uniqKey];
+        } else {
+            eventInstance.targetResult(event.data)
+        }
     }
     else if (event.data.key == KIND.LOADED) {
         eventInstance.loadComplete()
     }
 })
 
+function getRandNumber(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 
-export function executeCode(code: string) {
-    worker.postMessage({ key: KIND.EXECUTE, code: code });
+export async function getTargets(code: string) {
+    return new Promise<MessageEvent>((resolve, _reject) => {
+        const rand = KIND.TARGETS + getRandNumber(0, 1000);
+        // this is not correct way to choose
+        // for now we are proceeding
+        worker.postMessage({ key: KIND.TARGETS, code: code, uniqKey: rand })
+        callBackStore[rand] = resolve;
+    })
+}
+
+
+
+export function executeCode(code: string, target: string = '1') {
+    worker.postMessage({ key: KIND.EXECUTE, code: code, target: target });
 }
 
 export function targetCode(code: string) {

@@ -40,15 +40,41 @@ def main(content):
     return out.httpdef
 def getTargets(content):
     content = base64.b64decode(content).decode('utf-8')
+    print(content)
     out = content_override(
         Config(target="1", no_cookie=True, property_file=None, experimental=False, format=False,
             stdout=False, debug=False, info=False, curl=False, env=[], file="", properties=[]),
         env={},
         content=content,
     )
-    out.load()
-    out.load_def()
-    return [i.namewrap.name for i in out.model.allhttps]
+    out.load_model()
+    all_names = []
+    all_urls = []
+    for index, http in enumerate(out.model.allhttps):
+        if http.namewrap:
+            name = http.namewrap.name if http.namewrap else str(index)
+            start = http.namewrap._tx_position
+            end = http._tx_position_end
+        else:
+            start = http.urlwrap._tx_position
+            end = http._tx_position_end
+            name = str(index + 1)
+        name = {
+            'name': name,
+            'method': http.urlwrap.method,
+            'start': start,
+            'end': end
+        }
+        url = {
+            'url': http.urlwrap.url,
+            'method': http.urlwrap.method or 'GET',
+            'start': http.urlwrap._tx_position,
+            'end': http.urlwrap._tx_position_end,
+        }
+        all_names.append(name)
+        all_urls.append(url)
+    data = {"all_urls": all_urls, "all_names": all_names }
+    return json.dumps(data)
 globals()['main']=  main
 globals()['targets'] = getTargets`
 
@@ -95,7 +121,7 @@ async function executeAndUdate(code: string): Promise<{ content: string; lang: s
 
 
 
-async function getTargets(code: string): Promise<string[]> {
+function getTargets(code: string): Array<String> {
     const pycode = `targets("${btoa(code)}")`
     try {
         //@ts-ignore
@@ -109,7 +135,7 @@ async function getTargets(code: string): Promise<string[]> {
 
 self.onmessage = async (event) => {
     await pyodideReadyPromise;
-    const { key, code, ...context } = event.data;
+    const { key, code, uniqKey, ...context } = event.data;
     console.log(key, code, context)
     let results: any;
     try {
@@ -126,7 +152,7 @@ self.onmessage = async (event) => {
         results = { error: true, error_message: "execution error happened", };
     }
     self.postMessage(
-        { results: results, key: key }
+        { results: results, key: key, uniqKey: uniqKey }
     );
 
 }
