@@ -19,6 +19,10 @@ monaco.languages.setLanguageConfiguration('dothttp', dothttp.conf)
 monaco.languages.registerCodeLensProvider("dothttp", new DothttpLensProvider());
 monaco.languages.registerDocumentSymbolProvider("dothttp", new DothttpSymbolProvider());
 
+monaco.editor.registerCommand("dothttp.run.command", function (_, code, target) {
+	executeCode(code, target);
+});
+
 // @ts-ignore
 self.MonacoEnvironment = {
 	getWorkerUrl: function (_moduleId: any, label: string) {
@@ -85,7 +89,7 @@ export class DothttpEditor extends React.Component<{}, state> {
 		})
 	}
 
-	dothttpWillMount(editor) {
+	dothttpWillMount(editor: monaco.editor.IStandaloneCodeEditor) {
 		this.dothttpCodeEditor = editor;
 		// this.dothttpCodeEditor.onDidChangeModelContent(event => {
 		//  	targetCode(this.dothttpCodeEditor.getValue());

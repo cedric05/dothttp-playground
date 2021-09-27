@@ -1,6 +1,5 @@
 
 import { languages } from 'monaco-editor-core';
-import { DothttpLensProvider, DothttpSymbolProvider } from './dothttpEditorFeatures';
 
 export const conf: languages.LanguageConfiguration = {
     "comments": {
