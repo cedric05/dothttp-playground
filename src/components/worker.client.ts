@@ -2,17 +2,23 @@ import { KIND } from "../utils/utils";
 
 const worker = new Worker('dothttp.worker.bundle.js');
 
+
+class EventData extends Event {
+    data: any
+}
+
 class KindTargets extends EventTarget {
     loadComplete() {
-        const event = new Event(KIND.LOADED);
+        const event = new EventData(KIND.LOADED);
         this.dispatchEvent(event);
     }
     targetResult(data: any) {
-        const event = new Event(KIND.TARGETS, data);
+        const event = new EventData(KIND.TARGETS);
+        event.data = data;
         this.dispatchEvent(event);
     }
     executeResult(data: any) {
-        const event = new Event(KIND.EXECUTE, data);
+        const event = new EventData(KIND.EXECUTE);
         // @ts-ignore
         event.data = data;
         this.dispatchEvent(event);
@@ -26,7 +32,7 @@ worker.onmessage = ((event: MessageEvent) => {
     else if (event.data.key == KIND.TARGETS) {
         eventInstance.targetResult(event.data)
     }
-    else if (event.data.key == KIND.LOADED){
+    else if (event.data.key == KIND.LOADED) {
         eventInstance.loadComplete()
     }
 })

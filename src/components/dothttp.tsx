@@ -8,7 +8,7 @@ import { DothttpLensProvider, DothttpSymbolProvider } from '../lang/dothttpEdito
 import { copyShareLinkToClipboard, handleShareLink } from '../utils/pako-utils';
 import { KIND } from '../utils/utils';
 import templates from './templates';
-import { eventInstance, executeCode } from './worker.client';
+import { eventInstance, executeCode, targetCode } from './worker.client';
 
 
 monaco.languages.register({ id: 'dothttp' })
@@ -36,6 +36,8 @@ type state = {
 	jsonEditorData: string;
 	dothttpEditorData: string;
 	loading: boolean;
+	// targets: Array<string>;
+	// selected_target: string | null;
 	step_loading: boolean;
 };
 
@@ -51,10 +53,16 @@ export class DothttpEditor extends React.Component<{}, state> {
 			statusColor: "success",
 			jsonEditorData: "{}",
 			dothttpEditorData: content,
+			// targets: [],
+			// selected_target: '1',
 			step_loading: true,
 		};
 		eventInstance.addEventListener(KIND.LOADED, () => {
-			this.setState({ loading: false, step_loading: false });
+			this.setState({
+				loading: false,
+				step_loading: false,
+				dothttpEditorData: this.dothttpCodeEditor.getValue()
+			});
 		})
 
 		eventInstance.addEventListener(KIND.EXECUTE, (event) => {
@@ -79,6 +87,9 @@ export class DothttpEditor extends React.Component<{}, state> {
 
 	dothttpWillMount(editor) {
 		this.dothttpCodeEditor = editor;
+		// this.dothttpCodeEditor.onDidChangeModelContent(event => {
+		//  	targetCode(this.dothttpCodeEditor.getValue());
+		// })
 	}
 
 	jsonWillMount(editor) {
@@ -125,9 +136,15 @@ export class DothttpEditor extends React.Component<{}, state> {
 					{' '}
 
 					{this.state.step_loading ?
-						<Spinner className="ml-5" animation="border" /> :
+						<Spinner className="ml-5" animation="border" variant="light" /> :
 						<Button className="ml-5" variant="primary mr-1" size="sm" onClick={this.invokeExecute.bind(this)}>RUN</Button>
 					}
+
+					{/* <NavDropdown className="ml-5" id="dropdown-item-button" title={this.state.selected_target}>
+						{this.state.targets.map(target => (
+							<NavDropdown.Item onClick={this.updateTarget.bind(this)} key={target} value={target} >{target}</NavDropdown.Item>
+						))}
+					</NavDropdown> */}
 				</Nav>
 
 				<div className="ml-auto" >
@@ -190,6 +207,11 @@ export class DothttpEditor extends React.Component<{}, state> {
 	updateTemplate(event) {
 		this.setState({ dothttpEditorData: event.target.attributes['value'].value })
 	}
+
+	// updateTarget(event) {
+	// 	this.setState({ selected_target: event.target.attributes['value'].value })
+	// }
+
 
 
 	getOptions() {

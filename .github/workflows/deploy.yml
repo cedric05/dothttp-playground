@@ -1,5 +1,5 @@
 
-name: github pages
+name: Deploy Playground
 on:
   push:
     branches:
@@ -18,21 +18,10 @@ jobs:
         uses: actions/setup-node@v2.1.2
         with:
           node-version: '12.x'
-
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-website-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-website-
-
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - run: |
+          npm install
+          npm run build
+          echo "ghpage.dothttp.dev" > docs/CNAME
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

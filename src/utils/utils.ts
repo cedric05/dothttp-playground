@@ -4,20 +4,31 @@ import * as jsonparser from 'jsonc-parser';
 const axiosInstance = axios.create({
     timeout: 15000,
 });
+interface toJs<obj> {
+    toJs(): obj
+}
+
+function strMapToObj(strMap) {
+    let obj = Object.create(null);
+    for (let [k, v] of strMap) {
+        // We don’t escape the key '__proto__'
+        // which can cause problems on older engines
+        obj[k] = v;
+    }
+    return obj;
+}
+
+
 type ParsedRequest = {
     url: string;
     method?: Method;
-    headers?: {
-        [key: string]: string;
-    };
-    query?: {
-        [key: string]: Array<string>;
-    };
-    auth?: Array<string>[2];
+    headers?: toJs<Map<string, string>>;
+    query?: toJs<Map<string, Array<string>>>;
+    auth?: toJs<{ username: string, password: string }>;
     payload?: {
-        data?: string | {};
-        json?: {};
-        files?: Array<[string, Array<string>]>;
+        data?: string | toJs<Map<string, any>>;
+        json?: toJs<Map<string, any>>;
+        files?: toJs<Array<[string, Array<string>]>>;
         header?: string;
     };
 };
@@ -25,23 +36,27 @@ function toAxisRequest(obj: ParsedRequest): AxiosRequestConfig {
     let data: {};
     let contentType = null;
     if (obj.payload) {
-        if (obj.payload.data) {
-            data = obj.payload.data;
-            if (!obj.payload.header) {
-                if (typeof obj.payload.data === "string") {
-                    contentType = "text/plain";
-                } else {
-                    contentType = "application/x-www-form-urlencoded";
-                }
+        const payload = obj.payload;
+        if (payload.data) {
+            data = payload.data;
+            if (typeof obj.payload.data === "string") {
+                data = payload.data;
+                contentType = "text/plain";
             } else {
-                contentType = obj.payload.header;
+                data = strMapToObj((payload.data as toJs<Map<any, any>>).toJs());
+                contentType = "application/x-www-form-urlencoded";
             }
-        } else if (obj.payload.json) {
-            data = obj.payload.json;
+            if (!payload.header) {
+                contentType = payload.header;
+            }
+        } else if (payload.json) {
+            data = strMapToObj(payload.json.toJs());
             contentType = "application/json";
-        } else if (obj.payload.files) {
+        } else if (payload.files) {
+            const files = payload.files.toJs()
             const form = new FormData();
-            obj.payload.files.forEach(arr => {
+            files.forEach(arr => {
+                // content-type currently ignored
                 const key = arr[0];
                 const value = arr[1][1];
                 form.append(key, value);
@@ -50,23 +65,32 @@ function toAxisRequest(obj: ParsedRequest): AxiosRequestConfig {
             data = form;
         }
     }
-    let headers = obj.headers || {};
+    // its string to string
+    // so object.entries works
+    let headers = strMapToObj((obj.headers.toJs()));
     if (contentType) {
         headers['content-type'] = contentType;
     }
     let auth = null;
     if (obj.auth) {
-        const [username, password] = obj.auth;
+        const { username, password } = obj.auth.toJs();
         auth = {
             username, password
         };
+    }
+    const _query = obj.query.toJs()
+    const query = new URLSearchParams();
+    for (const [key, value] of _query) {
+        for (const val of value) {
+            query.append(key, val);
+        }
     }
 
     return {
         withCredentials: false,
         transformResponse: [],
         url: obj.url,
-        params: obj.query,
+        params: query,
         headers: headers,
         method: obj.method,
         data: data,
