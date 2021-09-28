@@ -10,7 +10,7 @@ export function handleShareLink(): string | null {
             return null;
         }
 
-        history.replaceState(null, null, ' ');
+        // history.replaceState(null, null, ' ');
         const hashContents = decodeHash(rawHash);
 
         return hashContents
