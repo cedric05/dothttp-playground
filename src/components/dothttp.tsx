@@ -228,8 +228,8 @@ export class DothttpEditor extends React.Component<{}, state> {
 
 	invokeExecute() {
 		const code = this.dothttpCodeEditor.getModel().getValue();
-		this.dothttpCodeEditor.setValue(code);
-		this.setState({ loading: true });
+		// this.dothttpCodeEditor.setValue(code);
+		// this.setState({ loading: true });
 		executeCode(code);
 	}
 
