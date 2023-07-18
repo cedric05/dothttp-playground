@@ -1,6 +1,6 @@
 // @ts-ignore
-self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.18.0/full/';
-importScripts('https://cdn.jsdelivr.net/pyodide/v0.18.0/full/pyodide.js');
+// self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.18.0/full/';
+importScripts('https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js');
 import { getContent, formatJson, KIND } from "../utils/utils";
 
 const loadCode = `from dothttp import Config, HttpDefBase
@@ -79,12 +79,11 @@ globals()['main']=  main
 globals()['targets'] = getTargets`
 
 async function loadPyodideAndPackages() {
-    // @ts-ignore
-    await languagePluginLoader;
+    self.pyodide = await loadPyodide();
     // @ts-ignore
     await self.pyodide.loadPackage(['micropip']);
     // @ts-ignore
-    await self.pyodide.runPython(`import micropip;micropip.install(['dothttp-req-wasm==0.0.42a8', 'setuptools'])`);
+    await self.pyodide.runPython(`import micropip;micropip.install(['dothttp-req-wasm==0.0.42a10', 'setuptools'])`);
     // @ts-ignore
     await self.pyodide.runPython(loadCode);
     self.postMessage(
