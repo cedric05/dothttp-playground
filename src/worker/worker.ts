@@ -1,5 +1,5 @@
 // @ts-ignore
-// self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.18.0/full/';
+// self.languagePluginUrl = 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/';
 importScripts('https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js');
 import { getContent, formatJson, KIND } from "../utils/utils";
 
@@ -83,7 +83,7 @@ async function loadPyodideAndPackages() {
     // @ts-ignore
     await self.pyodide.loadPackage(['micropip']);
     // @ts-ignore
-    await self.pyodide.runPython(`import micropip;micropip.install(['dothttp-req-wasm==0.0.42a10', 'setuptools'])`);
+    await self.pyodide.runPython(`import micropip;micropip.install(['dothttp-req-wasm==0.0.42a13', 'setuptools'])`);
     // @ts-ignore
     await self.pyodide.runPython(loadCode);
     self.postMessage(
