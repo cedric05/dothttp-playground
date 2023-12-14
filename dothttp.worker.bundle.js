@@ -4005,7 +4005,7 @@ function _loadPyodideAndPackages() {
           return self.pyodide.loadPackage(['micropip']);
         case 5:
           _context2.next = 7;
-          return self.pyodide.runPython("import micropip;micropip.install(['dothttp-req-wasm==0.0.43a1', 'setuptools'])");
+          return self.pyodide.runPython("import micropip;micropip.install(['dothttp-req-wasm==0.0.42', 'setuptools'])");
         case 7:
           _context2.next = 9;
           return self.pyodide.runPython(loadCode);
