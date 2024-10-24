@@ -3,9 +3,7 @@
 importScripts('https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js');
 import { getContent, formatJson, KIND } from "../utils/utils";
 
-const loadCode = `from dothttp.models.computed import Config
-from dothttp.parse import HttpDefBase
-
+const loadCode = `from dothttp import Config, HttpDefBase
 import json
 import base64
 
@@ -85,7 +83,7 @@ async function loadPyodideAndPackages() {
     // @ts-ignore
     await self.pyodide.loadPackage(['micropip']);
     // @ts-ignore
-    await self.pyodide.runPython(`import micropip;micropip.install(['dothttp-req-wasm==0.0.43a23', 'setuptools'])`);
+    await self.pyodide.runPython(`import micropip;micropip.install(['dothttp-req-wasm==0.0.42', 'setuptools'])`);
     // @ts-ignore
     await self.pyodide.runPython(loadCode);
     self.postMessage(
