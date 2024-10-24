@@ -3,7 +3,9 @@
 importScripts('https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js');
 import { getContent, formatJson, KIND } from "../utils/utils";
 
-const loadCode = `from dothttp import Config, HttpDefBase
+const loadCode = `from dothttp.models.computed import Config
+from dothttp.parse import HttpDefBase
+
 import json
 import base64
 
